@@ -17,12 +17,16 @@ public @Data class User {
 
     private String nome;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_endereco",
-            joinColumns = @JoinColumn(name="id"),
-            inverseJoinColumns = @JoinColumn(name = "cep")
-    )
-    @JsonIgnoreProperties("enderecos")
-    private List<Endereco> enderecos;
+    @ManyToOne
+    private Endereco endereco;
+
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_endereco",
+//            joinColumns = @JoinColumn(name="id"),
+//            inverseJoinColumns = @JoinColumn(name = "cep")
+//    )
+//    @JsonIgnoreProperties("enderecos")
+//    private List<Endereco> enderecos;
 }

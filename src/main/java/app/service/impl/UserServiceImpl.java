@@ -1,5 +1,6 @@
 package app.service.impl;
 
+import app.model.Endereco;
 import app.model.User;
 import app.repository.EnderecoRepository;
 import app.repository.UserRepository;
@@ -33,21 +34,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void inserir(User user) {
-        if (enderecoRepository.existsById()) {
-            userRepository.save(user);
-        }else {
 
-        }
-
+        salvarComCep(user);
     }
 
     @Override
     public void atualizar(Long id, User user) {
 
+        Optional<User> userbd = userRepository.findById(id);
+
+        if (userbd.isPresent()) {
+            salvarComCep(user);
+        }
+
     }
 
     @Override
     public void deletar(Long id) {
+        userRepository.deleteById(id);
+    }
 
+
+    private void salvarComCep(User user) {
+        String cep = user.getEndereco().getCep();
+
+        Endereco endereco = enderecoRepository.findById(cep).orElseGet(() -> {
+            Endereco novoEndereco = viaCepService.consultarCep(cep);
+            enderecoRepository.save(novoEndereco);
+            return novoEndereco;
+        });
+
+
+        user.setEndereco(endereco);
+        userRepository.save(user);
     }
 }
