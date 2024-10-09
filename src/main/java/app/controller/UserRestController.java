@@ -19,18 +19,19 @@ public class UserRestController {
         return ResponseEntity.ok(userService.buscarTodos());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> buscarPorId(@PathVariable Long id){
-        return ResponseEntity.ok(userService.buscarPorId(id));
-    }
-
     @PostMapping("/")
     public ResponseEntity<User> inserir(@RequestBody User user){
         userService.inserir(user);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
+    public ResponseEntity<User> buscarPorId(@PathVariable Long id){
+        return ResponseEntity.ok(userService.buscarPorId(id));
+    }
+
+
+    @PutMapping("/{id}")
     public ResponseEntity<User> atualizar(@PathVariable Long id, @RequestBody User user){
         userService.atualizar(id, user);
         return ResponseEntity.ok(user);
